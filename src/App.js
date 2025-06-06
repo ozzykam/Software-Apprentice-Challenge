@@ -23,7 +23,8 @@ function App() {
       const {
         facebook_ads = [],
         twitter_ads = [],
-        snapchat_ads = []
+        snapchat_ads = [],
+        google_analytics = []
       } = fakeData
 
       const standardizeAds = [
@@ -32,8 +33,24 @@ function App() {
         ...snapchat_ads.map(ad => makeStandard(ad, "Snapchat"))
       ];
 
-      setFakeDataSet(standardizeAds);
-      console.log("Standardized Ads: ", standardizeAds);
+      const mergeGoogleAnalytics = (ads, analytics) => {
+        return ads.map(ad => {
+          const match = analytics.find(info =>
+            info.utm_campaign === ad.campaign &&
+            info.utm_medium === ad.adset &&
+            info.utm_content === ad.creative
+          );
+          return {
+            ...ad,
+            results: match?.results || 0
+          }
+        })
+      }
+
+      const combinedAds = mergeGoogleAnalytics(standardizeAds, google_analytics);
+
+      setFakeDataSet(combinedAds);
+      console.log("Combined Ads: ", combinedAds);
     } else {
       console.log("Fetch Error: ", response.statusText);
     }
