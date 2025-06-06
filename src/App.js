@@ -35,9 +35,20 @@ function App() {
     fetchFakeData();
   }, []);
   return (
-    <>
-    
-    </>
+    <ul>
+    {fakeDataSet && fakeDataSet.map((ad, index) => (
+        <div className="card" key={index}>
+            <h1>{ad.campaign}</h1>
+            <p>Platform: <strong>{ad.platform}</strong></p>
+            <p>Adset: <strong>{ad.adset}</strong></p>
+            <p>Creative: <strong>{ad.creative}</strong></p>
+            <p>Spend: <strong>${ad.spend.toLocaleString()}</strong></p>
+            <p>Impressions: <strong>{ad.impressions.toLocaleString()}</strong></p>
+            <p>Clicks: <strong>{ad.clicks.toLocaleString()}</strong></p>
+            <p>Results: <strong>{ad.results}</strong></p>
+        </div>
+      ))}
+      </ul>
   );
 }
 
