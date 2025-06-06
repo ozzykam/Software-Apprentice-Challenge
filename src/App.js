@@ -1,6 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import { MakeStandard, MergeGoogleAnalytics } from './utils/adMerge';
+import Card from './components/Card';
 
 function App() {
   const [fakeDataSet, setFakeDataSet] = useState(null);
@@ -34,22 +35,19 @@ function App() {
   useEffect(() => {
     fetchFakeData();
   }, []);
+  
+  if (!fakeDataSet) {
+    return <p>Loading ads...</p>;
+  }
+
   return (
-    <ul>
-    {fakeDataSet && fakeDataSet.map((ad, index) => (
-        <div className="card" key={index}>
-            <h1>{ad.campaign}</h1>
-            <p>Platform: <strong>{ad.platform}</strong></p>
-            <p>Adset: <strong>{ad.adset}</strong></p>
-            <p>Creative: <strong>{ad.creative}</strong></p>
-            <p>Spend: <strong>${ad.spend.toLocaleString()}</strong></p>
-            <p>Impressions: <strong>{ad.impressions.toLocaleString()}</strong></p>
-            <p>Clicks: <strong>{ad.clicks.toLocaleString()}</strong></p>
-            <p>Results: <strong>{ad.results}</strong></p>
-        </div>
+    <>
+      {fakeDataSet.map((ad, index) => (
+        <Card key={index} ad={ad} />
       ))}
-      </ul>
+    </>
   );
+  
 }
 
 export default App;
