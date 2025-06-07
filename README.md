@@ -65,3 +65,6 @@ yarn start
 OR
 npm start
 ```
+### Additional Styling
+
+The solution here was provided in the spirit of providing a solution as quickly as possible. For a better looking, and more functional result, check out the *bonus* branch of this project!
