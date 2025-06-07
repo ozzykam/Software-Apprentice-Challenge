@@ -1,8 +1,11 @@
 import './App.css';
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { MakeStandard, MergeGoogleAnalytics } from './utils/adMerge';
 import Card from './components/Card';
 import Search from './components/Search';
+import Table from './components/Table';
+
 
 function App() {
   const [fakeDataSet, setFakeDataSet] = useState(null);
@@ -56,19 +59,37 @@ function App() {
     });
 
   return (
-    <>
-    <Search
-        search={search}
-        setSearch={setSearch}
-        platformFilter={platformFilter}
-        setPlatformFilter={setPlatformFilter}
-        sortOrder={sortOrder}
-        setSortOrder={setSortOrder}
-      />
-      {filteredAndSortedAds.map((ad, index) => (
-        <Card key={index} ad={ad} />
-      ))}
-    </>
+    <Router>
+      <div className="min-h-screen bg-gray-100 p-6">
+        <h1 className="text-3xl font-bold text-center mb-6">Ad Campaigns</h1>
+        <nav className="flex justify-center space-x-6 mb-8">
+          <Link to="/cards" className="text-blue-600 hover:underline">Card View</Link>
+          <Link to="/table" className="text-blue-600 hover:underline">Table View</Link>
+        </nav>
+
+        <Routes>
+          <Route path="/" element={<Navigate to="/cards" />} />
+          <Route path="/cards" element={
+            <>
+              <Search
+                search={search}
+                setSearch={setSearch}
+                platformFilter={platformFilter}
+                setPlatformFilter={setPlatformFilter}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredAndSortedAds.map((ad, index) => (
+                  <Card key={index} ad={ad} />
+                ))}
+              </div>
+            </>
+          } />
+          <Route path="/table" element={<Table ads={fakeDataSet} />} />
+        </Routes>
+      </div>
+    </Router>
   );
 
 }
