@@ -12,7 +12,11 @@
     );
   };
 
-  const clearSort = () => setSortOrder(null);
+  const clearSortandFilter = () => {
+    setSortOrder(null);
+    setSearch("");
+    setPlatformFilter("All");
+  };
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
@@ -43,7 +47,7 @@
           Sort Spend {sortOrder === "asc" ? "▲" : "▼"}
         </button>
         <button 
-          onClick={clearSort}
+          onClick={clearSortandFilter}
           className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
         >
           Clear
